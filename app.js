@@ -1,12 +1,18 @@
 // ==========================================
-// LOAD ENVIRONMENT VARIABLES
+// DNS CONFIGURATION
 // ==========================================
+
 const dns = require("dns");
 
 dns.setServers([
     "8.8.8.8",
     "8.8.4.4"
 ]);
+
+
+// ==========================================
+// LOAD ENVIRONMENT VARIABLES
+// ==========================================
 
 require("dotenv").config();
 
@@ -43,7 +49,7 @@ const app = express();
 
 
 // ==========================================
-// CHECK ENVIRONMENT VARIABLES
+// ENVIRONMENT VARIABLE CHECK
 // ==========================================
 
 console.log("=================================");
@@ -131,7 +137,7 @@ app.set(
 // MIDDLEWARE
 // ==========================================
 
-// Parse URL encoded data
+// URL encoded data
 app.use(
     express.urlencoded({
         extended: true
@@ -139,7 +145,7 @@ app.use(
 );
 
 
-// Parse JSON
+// JSON data
 app.use(
     express.json()
 );
@@ -165,8 +171,7 @@ app.use(
 
 const sessionOptions = {
 
-    secret:
-        process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET,
 
     resave: false,
 
@@ -189,7 +194,7 @@ app.use(
 
 
 // ==========================================
-// FLASH
+// FLASH MESSAGES
 // ==========================================
 
 app.use(flash());
@@ -199,13 +204,16 @@ app.use(flash());
 // PASSPORT CONFIGURATION
 // ==========================================
 
-app.use(passport.initialize());
+app.use(
+    passport.initialize()
+);
 
-app.use(passport.session());
+app.use(
+    passport.session()
+);
 
 
-// Passport Local Strategy
-
+// Local Strategy
 passport.use(
     new LocalStrategy(
         User.authenticate()
@@ -214,21 +222,19 @@ passport.use(
 
 
 // Serialize User
-
 passport.serializeUser(
     User.serializeUser()
 );
 
 
 // Deserialize User
-
 passport.deserializeUser(
     User.deserializeUser()
 );
 
 
 // ==========================================
-// GLOBAL VARIABLES FOR EJS
+// GLOBAL VARIABLES
 // ==========================================
 
 app.use(
@@ -284,7 +290,7 @@ app.use(
 
 
 // ==========================================
-// USER / AUTH ROUTES
+// USER / AUTHENTICATION ROUTES
 // ==========================================
 
 app.use(
@@ -301,9 +307,7 @@ app.use(
     (req, res, next) => {
 
         const err =
-            new Error(
-                "Page Not Found"
-            );
+            new Error("Page Not Found");
 
         err.status = 404;
 
@@ -320,17 +324,25 @@ app.use(
 app.use(
     (err, req, res, next) => {
 
-        const {
-            statusCode = 500,
-            message = "Something went wrong"
-        } = err;
+        console.log("=================================");
+        console.log("APPLICATION ERROR");
+        console.log("=================================");
+
+        console.log(err);
+
+        console.log("=================================");
+
+        const statusCode =
+            err.statusCode ||
+            err.status ||
+            500;
 
         res.status(statusCode);
 
         res.render(
             "error.ejs",
             {
-                message
+                err
             }
         );
 
@@ -342,8 +354,8 @@ app.use(
 // SERVER
 // ==========================================
 
-// Render provides PORT through environment variable.
-// Local development will use 8080.
+// Render provides process.env.PORT.
+// Local development uses port 8080.
 
 const PORT =
     process.env.PORT || 8080;
@@ -354,9 +366,11 @@ app.listen(
     () => {
 
         console.log("=================================");
+
         console.log(
             `Server is listening on port ${PORT}`
         );
+
         console.log("=================================");
 
     }
