@@ -1,9 +1,6 @@
-
 // ==========================================
 // LOAD ENVIRONMENT VARIABLES
 // ==========================================
-
-
 const dns = require("dns");
 
 dns.setServers([
@@ -11,17 +8,14 @@ dns.setServers([
     "8.8.4.4"
 ]);
 
-
 require("dotenv").config();
 
 
 // ==========================================
-// IMPORTS
+// IMPORT PACKAGES
 // ==========================================
 
 const express = require("express");
-const app = express();
-
 const mongoose = require("mongoose");
 const path = require("path");
 
@@ -42,40 +36,47 @@ const userRouter = require("./routes/user.js");
 
 
 // ==========================================
-// ENVIRONMENT VARIABLE CHECK
+// EXPRESS APP
+// ==========================================
+
+const app = express();
+
+
+// ==========================================
+// CHECK ENVIRONMENT VARIABLES
 // ==========================================
 
 console.log("=================================");
-console.log("ENVIRONMENT CHECK");
+console.log("ENVIRONMENT VARIABLE CHECK");
 console.log("=================================");
 
 console.log(
-    "MongoDB URL exists:",
+    "MONGO_URL exists:",
     !!process.env.MONGO_URL
 );
 
 console.log(
-    "Mapbox Token exists:",
+    "MAP_TOKEN exists:",
     !!process.env.MAP_TOKEN
 );
 
 console.log(
-    "Cloudinary Cloud Name exists:",
+    "CLOUDINARY_CLOUD_NAME exists:",
     !!process.env.CLOUDINARY_CLOUD_NAME
 );
 
 console.log(
-    "Cloudinary API Key exists:",
+    "CLOUDINARY_KEY exists:",
     !!process.env.CLOUDINARY_KEY
 );
 
 console.log(
-    "Cloudinary API Secret exists:",
+    "CLOUDINARY_SECRET exists:",
     !!process.env.CLOUDINARY_SECRET
 );
 
 console.log(
-    "Session Secret exists:",
+    "SESSION_SECRET exists:",
     !!process.env.SESSION_SECRET
 );
 
@@ -83,48 +84,42 @@ console.log("=================================");
 
 
 // ==========================================
-// DATABASE CONNECTION
+// MONGODB CONNECTION
 // ==========================================
 
 const MONGO_URL = process.env.MONGO_URL;
 
-
 async function main() {
 
-    await mongoose.connect(MONGO_URL);
+    try {
+
+        await mongoose.connect(MONGO_URL);
+
+        console.log("=================================");
+        console.log("Connected to MongoDB");
+        console.log("=================================");
+
+    } catch (err) {
+
+        console.log("=================================");
+        console.log("MongoDB connection error:");
+        console.log(err);
+        console.log("=================================");
+
+    }
 
 }
 
-
-main()
-    .then(() => {
-
-        console.log("Connected to MongoDB");
-
-    })
-    .catch((err) => {
-
-        console.log("MongoDB connection error:");
-        console.log(err);
-
-    });
+main();
 
 
 // ==========================================
-// APP CONFIGURATION
+// EJS CONFIGURATION
 // ==========================================
 
-app.engine(
-    "ejs",
-    ejsMate
-);
+app.engine("ejs", ejsMate);
 
-
-app.set(
-    "view engine",
-    "ejs"
-);
-
+app.set("view engine", "ejs");
 
 app.set(
     "views",
@@ -136,6 +131,7 @@ app.set(
 // MIDDLEWARE
 // ==========================================
 
+// Parse URL encoded data
 app.use(
     express.urlencoded({
         extended: true
@@ -143,20 +139,19 @@ app.use(
 );
 
 
+// Parse JSON
 app.use(
     express.json()
 );
 
 
+// Method Override
 app.use(
     methodOverride("_method")
 );
 
 
-// ==========================================
-// SERVE PUBLIC FOLDER
-// ==========================================
-
+// Static Files
 app.use(
     express.static(
         path.join(__dirname, "public")
@@ -165,12 +160,13 @@ app.use(
 
 
 // ==========================================
-// SESSION
+// SESSION CONFIGURATION
 // ==========================================
 
 const sessionOptions = {
 
-    secret: process.env.SESSION_SECRET,
+    secret:
+        process.env.SESSION_SECRET,
 
     resave: false,
 
@@ -180,17 +176,12 @@ const sessionOptions = {
 
         httpOnly: true,
 
-        expires:
-            Date.now() +
-            7 * 24 * 60 * 60 * 1000,
-
         maxAge:
             7 * 24 * 60 * 60 * 1000
 
     }
 
 };
-
 
 app.use(
     session(sessionOptions)
@@ -201,24 +192,19 @@ app.use(
 // FLASH
 // ==========================================
 
-app.use(
-    flash()
-);
+app.use(flash());
 
 
 // ==========================================
-// PASSPORT
+// PASSPORT CONFIGURATION
 // ==========================================
 
-app.use(
-    passport.initialize()
-);
+app.use(passport.initialize());
+
+app.use(passport.session());
 
 
-app.use(
-    passport.session()
-);
-
+// Passport Local Strategy
 
 passport.use(
     new LocalStrategy(
@@ -227,10 +213,14 @@ passport.use(
 );
 
 
+// Serialize User
+
 passport.serializeUser(
     User.serializeUser()
 );
 
+
+// Deserialize User
 
 passport.deserializeUser(
     User.deserializeUser()
@@ -260,7 +250,21 @@ app.use(
 
 
 // ==========================================
-// ROUTES
+// HOME ROUTE
+// ==========================================
+
+app.get(
+    "/",
+    (req, res) => {
+
+        res.redirect("/listings");
+
+    }
+);
+
+
+// ==========================================
+// LISTING ROUTES
 // ==========================================
 
 app.use(
@@ -269,11 +273,19 @@ app.use(
 );
 
 
+// ==========================================
+// REVIEW ROUTES
+// ==========================================
+
 app.use(
     "/listings/:id/reviews",
     reviewRouter
 );
 
+
+// ==========================================
+// USER / AUTH ROUTES
+// ==========================================
 
 app.use(
     "/",
@@ -282,7 +294,7 @@ app.use(
 
 
 // ==========================================
-// 404 ERROR
+// 404 ROUTE
 // ==========================================
 
 app.use(
@@ -293,7 +305,7 @@ app.use(
                 "Page Not Found"
             );
 
-        err.statusCode = 404;
+        err.status = 404;
 
         next(err);
 
@@ -302,29 +314,23 @@ app.use(
 
 
 // ==========================================
-// ERROR HANDLER
+// ERROR HANDLING MIDDLEWARE
 // ==========================================
 
 app.use(
     (err, req, res, next) => {
 
-        let {
-
+        const {
             statusCode = 500,
-
-            message =
-                "Something went wrong"
-
+            message = "Something went wrong"
         } = err;
 
-
         res.status(statusCode);
-
 
         res.render(
             "error.ejs",
             {
-                err
+                message
             }
         );
 
@@ -336,6 +342,9 @@ app.use(
 // SERVER
 // ==========================================
 
+// Render provides PORT through environment variable.
+// Local development will use 8080.
+
 const PORT =
     process.env.PORT || 8080;
 
@@ -344,10 +353,11 @@ app.listen(
     PORT,
     () => {
 
+        console.log("=================================");
         console.log(
             `Server is listening on port ${PORT}`
         );
+        console.log("=================================");
 
     }
 );
-
