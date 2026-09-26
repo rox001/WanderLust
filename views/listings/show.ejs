@@ -1,0 +1,793 @@
+<% layout('/layouts/boilerplate') %>
+
+<!-- ==========================================
+     LISTING MAIN SECTION
+========================================== -->
+
+<div class="row mt-3">
+
+    <div class="col-8 offset-2">
+
+        <!-- ==========================================
+             LISTING TITLE
+        ========================================== -->
+
+        <h3>
+            <%= listing.title %>
+        </h3>
+
+
+        <!-- ==========================================
+             LISTING IMAGE
+        ========================================== -->
+
+        <% if (listing.image && listing.image.url) { %>
+
+            <img
+                src="<%= listing.image.url %>"
+                class="card-img-top show-img"
+                alt="<%= listing.title %>"
+            >
+
+        <% } else { %>
+
+            <div class="alert alert-secondary">
+                No image available for this listing.
+            </div>
+
+        <% } %>
+
+
+        <!-- ==========================================
+             LISTING DETAILS
+        ========================================== -->
+
+        <div class="card mt-3">
+
+            <div class="card-body">
+
+                <!-- DESCRIPTION -->
+
+                <p class="card-text">
+                    <%= listing.description %>
+                </p>
+
+
+                <!-- PRICE -->
+
+                <p class="card-text">
+
+                    <strong>Price:</strong>
+
+                    ₹<%= listing.price
+                        ? listing.price.toLocaleString("en-IN")
+                        : "N/A"
+                    %>
+
+                </p>
+
+
+                <!-- LOCATION -->
+
+                <p class="card-text">
+
+                    <strong>Location:</strong>
+
+                    <%= listing.location %>
+
+                </p>
+
+
+                <!-- COUNTRY -->
+
+                <p class="card-text">
+
+                    <strong>Country:</strong>
+
+                    <%= listing.country %>
+
+                </p>
+
+
+                <!-- OWNER -->
+
+                <p class="card-text">
+
+                    <strong>Owned by:</strong>
+
+                    <% if (listing.owner) { %>
+
+                        <i>
+                            <%= listing.owner.username %>
+                        </i>
+
+                    <% } else { %>
+
+                        <i>
+                            Anonymous
+                        </i>
+
+                    <% } %>
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+             EDIT / DELETE LISTING
+        ========================================== -->
+
+        <% if (
+            currUser &&
+            listing.owner &&
+            listing.owner._id.equals(currUser._id)
+        ) { %>
+
+            <div class="d-flex gap-2 mt-3">
+
+                <!-- EDIT -->
+
+                <a
+                    href="/listings/<%= listing._id %>/edit"
+                    class="btn btn-dark"
+                >
+                    Edit
+                </a>
+
+
+                <!-- DELETE -->
+
+                <form
+                    method="POST"
+                    action="/listings/<%= listing._id %>?_method=DELETE"
+                >
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+                        Delete
+                    </button>
+
+                </form>
+
+            </div>
+
+        <% } %>
+
+
+        <!-- ==========================================
+             REVIEWS
+        ========================================== -->
+
+        <% if (currUser) { %>
+
+            <div class="mt-5">
+
+                <h4 class="reviews-heading">
+                    Reviews
+                </h4>
+
+
+                <!-- ==================================
+                     ADD REVIEW
+                ================================== -->
+
+                <div class="review-form-card">
+
+                    <h5 class="mb-3">
+                        Leave a Review
+                    </h5>
+
+
+                    <form
+                        method="POST"
+                        action="/listings/<%= listing._id %>/reviews"
+                        class="needs-validation"
+                        novalidate
+                    >
+
+                        <!-- RATING -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Rating
+                            </label>
+
+
+                            <div class="star-rating">
+
+                                <input
+                                    type="radio"
+                                    id="star5"
+                                    name="review[rating]"
+                                    value="5"
+                                    required
+                                >
+
+                                <label
+                                    for="star5"
+                                    title="5 stars"
+                                >
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    id="star4"
+                                    name="review[rating]"
+                                    value="4"
+                                >
+
+                                <label
+                                    for="star4"
+                                    title="4 stars"
+                                >
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    id="star3"
+                                    name="review[rating]"
+                                    value="3"
+                                >
+
+                                <label
+                                    for="star3"
+                                    title="3 stars"
+                                >
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    id="star2"
+                                    name="review[rating]"
+                                    value="2"
+                                >
+
+                                <label
+                                    for="star2"
+                                    title="2 stars"
+                                >
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    id="star1"
+                                    name="review[rating]"
+                                    value="1"
+                                >
+
+                                <label
+                                    for="star1"
+                                    title="1 star"
+                                >
+                                    ★
+                                </label>
+
+                            </div>
+
+
+                            <div class="invalid-feedback">
+                                Please select a rating from 1 to 5.
+                            </div>
+
+                        </div>
+
+
+                        <!-- COMMENT -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Comment
+                            </label>
+
+                            <textarea
+                                name="review[comment]"
+                                class="form-control"
+                                placeholder="Write your review"
+                                rows="4"
+                                required
+                            ></textarea>
+
+
+                            <div class="invalid-feedback">
+                                Please write a comment.
+                            </div>
+
+                        </div>
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-outline-dark"
+                        >
+                            Submit Review
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- ==================================
+                     SHOW REVIEWS
+                ================================== -->
+
+                <div class="row mt-4">
+
+                    <% if (
+                        listing.reviews &&
+                        listing.reviews.length > 0
+                    ) { %>
+
+                        <% listing.reviews.forEach(review => { %>
+
+                            <div class="col-md-6 mb-3">
+
+                                <div class="card review-card">
+
+                                    <div class="card-body">
+
+                                        <!-- REVIEW AUTHOR -->
+
+                                        <h6 class="card-title">
+
+                                            <i class="fa-solid fa-user"></i>
+
+                                            <% if (review.author) { %>
+
+                                                <%= review.author.username %>
+
+                                            <% } else { %>
+
+                                                Anonymous
+
+                                            <% } %>
+
+                                        </h6>
+
+
+                                        <!-- REVIEW RATING -->
+
+                                        <div class="review-rating mb-2">
+
+                                            <% for (
+                                                let i = 1;
+                                                i <= 5;
+                                                i++
+                                            ) { %>
+
+                                                <% if (
+                                                    i <= review.rating
+                                                ) { %>
+
+                                                    <span class="review-star filled">
+                                                        ★
+                                                    </span>
+
+                                                <% } else { %>
+
+                                                    <span class="review-star">
+                                                        ★
+                                                    </span>
+
+                                                <% } %>
+
+                                            <% } %>
+
+
+                                            <span class="rating-number">
+                                                <%= review.rating %>/5
+                                            </span>
+
+                                        </div>
+
+
+                                        <!-- REVIEW COMMENT -->
+
+                                        <p class="card-text review-comment">
+                                            <%= review.comment %>
+                                        </p>
+
+
+                                        <!-- REVIEW DATE -->
+
+                                        <% if (review.createdAt) { %>
+
+                                            <small class="text-muted">
+
+                                                <%= new Date(
+                                                    review.createdAt
+                                                ).toLocaleDateString(
+                                                    "en-IN",
+                                                    {
+                                                        day: "numeric",
+                                                        month: "short",
+                                                        year: "numeric"
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+                                        <% } %>
+
+
+                                        <!-- EDIT / DELETE REVIEW -->
+
+                                        <% if (
+                                            currUser &&
+                                            review.author &&
+                                            review.author._id.equals(
+                                                currUser._id
+                                            )
+                                        ) { %>
+
+                                            <div class="d-flex gap-2 mt-3">
+
+                                                <!-- EDIT REVIEW -->
+
+                                                <a
+                                                    href="/listings/<%= listing._id %>/reviews/<%= review._id %>/edit"
+                                                    class="btn btn-sm btn-outline-dark"
+                                                >
+                                                    Edit
+                                                </a>
+
+
+                                                <!-- DELETE REVIEW -->
+
+                                                <form
+                                                    method="POST"
+                                                    action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                                >
+
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                    >
+                                                        Delete
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
+
+                                        <% } %>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <% }) %>
+
+
+                    <% } else { %>
+
+                        <!-- NO REVIEWS -->
+
+                        <div class="col-12">
+
+                            <p class="text-muted">
+                                No reviews yet.
+                                Be the first to review!
+                            </p>
+
+                        </div>
+
+                    <% } %>
+
+                </div>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     MAP SECTION
+========================================== -->
+
+<div class="row mt-5 mb-5">
+
+    <div class="col-8 offset-2">
+
+        <h3>
+            Where you'll be
+        </h3>
+
+
+        <p class="text-muted">
+            <%= listing.location %>,
+            <%= listing.country %>
+        </p>
+
+
+        <!-- MAP -->
+
+        <div id="map"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     MAPBOX
+========================================== -->
+
+<script>
+
+    // ==========================================
+    // MAPBOX TOKEN
+    // ==========================================
+
+    mapboxgl.accessToken = "<%= mapToken %>";
+
+
+    console.log(
+        "Mapbox token exists:",
+        !!mapboxgl.accessToken
+    );
+
+
+    // ==========================================
+    // CREATE MAP
+    // ==========================================
+
+    const map = new mapboxgl.Map({
+
+        container: "map",
+
+        style: "mapbox://styles/mapbox/streets-v12",
+
+        center: [78.9629, 20.5937],
+
+        zoom: 4
+
+    });
+
+
+    // ==========================================
+    // NAVIGATION CONTROL
+    // ==========================================
+
+    map.addControl(
+        new mapboxgl.NavigationControl(),
+        "top-right"
+    );
+
+
+    // ==========================================
+    // LISTING LOCATION
+    // ==========================================
+
+    const listingLocation =
+        "<%= listing.location %>";
+
+    const listingCountry =
+        "<%= listing.country %>";
+
+
+    console.log(
+        "Listing location:",
+        listingLocation
+    );
+
+    console.log(
+        "Listing country:",
+        listingCountry
+    );
+
+
+    // ==========================================
+    // CREATE SEARCH TEXT
+    // ==========================================
+
+    const searchText = encodeURIComponent(
+        listingLocation + ", " + listingCountry
+    );
+
+
+    console.log(
+        "Search text:",
+        listingLocation + ", " + listingCountry
+    );
+
+
+    // ==========================================
+    // MAPBOX GEOCODING API
+    // ==========================================
+
+    const geocodingURL =
+        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+        searchText +
+        ".json?access_token=" +
+        mapboxgl.accessToken;
+
+
+    console.log(
+        "Geocoding URL created"
+    );
+
+
+    // ==========================================
+    // GET LOCATION
+    // ==========================================
+
+    fetch(geocodingURL)
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Mapbox API request failed: " +
+                    response.status
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            console.log(
+                "Mapbox response:",
+                data
+            );
+
+
+            // ==========================================
+            // LOCATION FOUND
+            // ==========================================
+
+            if (
+                data.features &&
+                data.features.length > 0
+            ) {
+
+                const coordinates =
+                    data.features[0].center;
+
+
+                console.log(
+                    "Coordinates:",
+                    coordinates
+                );
+
+
+                // ==========================================
+                // MOVE MAP
+                // ==========================================
+
+                map.flyTo({
+
+                    center: coordinates,
+
+                    zoom: 12,
+
+                    essential: true
+
+                });
+
+
+                // ==========================================
+                // ADD MARKER
+                // ==========================================
+
+                new mapboxgl.Marker()
+
+                    .setLngLat(coordinates)
+
+                    .setPopup(
+
+                        new mapboxgl.Popup({
+                            offset: 25
+                        })
+
+                        .setHTML(
+
+                            "<h6>" +
+                            listingLocation +
+                            "</h6>" +
+
+                            "<p>" +
+                            listingCountry +
+                            "</p>"
+
+                        )
+
+                    )
+
+                    .addTo(map);
+
+
+            } else {
+
+                console.log(
+                    "Location could not be found."
+                );
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Mapbox Geocoding Error:",
+                error
+            );
+
+        });
+
+</script>
+
+
+<!-- ==========================================
+     BOOTSTRAP FORM VALIDATION
+========================================== -->
+
+<script>
+
+(() => {
+
+    "use strict";
+
+
+    const forms =
+        document.querySelectorAll(
+            ".needs-validation"
+        );
+
+
+    Array.from(forms).forEach(form => {
+
+        form.addEventListener(
+            "submit",
+            event => {
+
+                if (!form.checkValidity()) {
+
+                    event.preventDefault();
+
+                    event.stopPropagation();
+
+                }
+
+                form.classList.add(
+                    "was-validated"
+                );
+
+            },
+            false
+        );
+
+    });
+
+})();
+
+</script>

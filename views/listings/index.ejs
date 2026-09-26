@@ -1,0 +1,638 @@
+<% layout('/layouts/boilerplate') %>
+
+<!-- =========================================================
+     WANDERLUST EXPLORE PAGE
+     ========================================================= -->
+
+<div class="explore-page">
+
+    <!-- =====================================================
+         CATEGORY BAR
+         ===================================================== -->
+
+    <div class="category-section">
+
+        <div class="category-scroll">
+
+            <!-- Trending -->
+            <button
+                type="button"
+                class="category-item active"
+                data-category="Trending"
+            >
+                <i class="fa-solid fa-fire"></i>
+                <span>Trending</span>
+            </button>
+
+
+            <!-- Rooms -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Rooms"
+            >
+                <i class="fa-solid fa-bed"></i>
+                <span>Rooms</span>
+            </button>
+
+
+            <!-- Iconic Cities -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Iconic Cities"
+            >
+                <i class="fa-solid fa-city"></i>
+                <span>Iconic Cities</span>
+            </button>
+
+
+            <!-- Mountains -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Mountains"
+            >
+                <i class="fa-solid fa-mountain"></i>
+                <span>Mountains</span>
+            </button>
+
+
+            <!-- Castles -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Castles"
+            >
+                <i class="fa-solid fa-chess-rook"></i>
+                <span>Castles</span>
+            </button>
+
+
+            <!-- Amazing Pools -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Amazing Pools"
+            >
+                <i class="fa-solid fa-person-swimming"></i>
+                <span>Amazing Pools</span>
+            </button>
+
+
+            <!-- Camping -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Camping"
+            >
+                <i class="fa-solid fa-tent"></i>
+                <span>Camping</span>
+            </button>
+
+
+            <!-- Farms -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Farms"
+            >
+                <i class="fa-solid fa-tractor"></i>
+                <span>Farms</span>
+            </button>
+
+
+            <!-- Arctic -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Arctic"
+            >
+                <i class="fa-solid fa-snowflake"></i>
+                <span>Arctic</span>
+            </button>
+
+
+            <!-- Domes -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Domes"
+            >
+                <i class="fa-solid fa-igloo"></i>
+                <span>Domes</span>
+            </button>
+
+
+            <!-- Boats -->
+            <button
+                type="button"
+                class="category-item"
+                data-category="Boats"
+            >
+                <i class="fa-solid fa-sailboat"></i>
+                <span>Boats</span>
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             TAX TOGGLE
+             ================================================= -->
+
+        <div class="tax-toggle-container">
+
+            <label class="tax-toggle">
+
+                <span>
+                    Display total after taxes
+                </span>
+
+                <input
+                    type="checkbox"
+                    id="taxSwitch"
+                >
+
+                <span class="tax-slider"></span>
+
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         LISTINGS
+         ===================================================== -->
+
+    <div
+        class="row row-cols-lg-3 row-cols-md-2 row-cols-1 mt-4"
+        id="listingContainer"
+    >
+
+        <% for (let listing of allListings) { %>
+
+            <div
+                class="col mb-4 listing-column"
+                data-listing-category="<%= listing.category || '' %>"
+                data-search-text="
+                    <%= listing.title || '' %>
+                    <%= listing.location || '' %>
+                    <%= listing.country || '' %>
+                    <%= listing.category || '' %>
+                "
+            >
+
+                <a
+                    href="/listings/<%= listing._id %>"
+                    class="listing-link"
+                >
+
+                    <div class="card listing-card">
+
+
+                        <!-- =================================
+                             IMAGE
+                             ================================= -->
+
+                        <% if (listing.image && listing.image.url) { %>
+
+                            <img
+                                src="<%= listing.image.url %>"
+                                class="card-img-top"
+                                alt="<%= listing.title %>"
+                            >
+
+                        <% } else { %>
+
+                            <div class="no-image">
+
+                                <i class="fa-regular fa-image"></i>
+
+                                <span>No Image</span>
+
+                            </div>
+
+                        <% } %>
+
+
+                        <!-- =================================
+                             LISTING DETAILS
+                             ================================= -->
+
+                        <div class="card-body">
+
+                            <p class="card-text">
+
+                                <b>
+                                    <%= listing.title %>
+                                </b>
+
+                                <br>
+
+
+                                <!-- NORMAL PRICE -->
+
+                                <span
+                                    class="normal-price"
+                                >
+                                    ₹
+                                    <%= listing.price
+                                        ? listing.price.toLocaleString("en-IN")
+                                        : "N/A"
+                                    %>
+                                    / night
+                                </span>
+
+
+                                <!-- TAX PRICE -->
+
+                                <span
+                                    class="tax-price"
+                                    style="display:none;"
+                                >
+
+                                    <strong>
+                                        ₹
+                                        <%= listing.price
+                                            ? Math.round(listing.price * 1.18).toLocaleString("en-IN")
+                                            : "N/A"
+                                        %>
+                                        / night
+                                    </strong>
+
+                                    <br>
+
+                                    <small class="gst-text">
+                                        ₹
+                                        <%= listing.price
+                                            ? listing.price.toLocaleString("en-IN")
+                                            : "N/A"
+                                        %>
+                                        + 18% GST
+
+                                        (<%= listing.price
+                                            ? Math.round(listing.price * 0.18).toLocaleString("en-IN")
+                                            : "N/A"
+                                        %>)
+
+                                    </small>
+
+                                </span>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
+
+    <!-- =====================================================
+         NO RESULTS MESSAGE
+         ===================================================== -->
+
+    <div
+        id="noListingsMessage"
+        class="no-listings-message"
+        style="display:none;"
+    >
+
+        <i class="fa-regular fa-face-frown"></i>
+
+        <h4>
+            No listings found
+        </h4>
+
+        <p>
+            There are no listings in this category yet.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CATEGORY + TAX JAVASCRIPT
+     ========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       CATEGORY FILTER
+       ===================================================== */
+
+    const categoryButtons =
+        document.querySelectorAll(".category-item");
+
+    const listingColumns =
+        document.querySelectorAll(".listing-column");
+
+    const noListingsMessage =
+        document.getElementById("noListingsMessage");
+
+
+    categoryButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+
+            /* Remove active from all */
+
+            categoryButtons.forEach(function (item) {
+
+                item.classList.remove("active");
+
+            });
+
+
+            /* Add active to clicked category */
+
+            button.classList.add("active");
+
+
+            const selectedCategory =
+                button.getAttribute("data-category")
+                    .toLowerCase();
+
+
+            let visibleCount = 0;
+
+
+            listingColumns.forEach(function (listing) {
+
+
+                /* =========================================
+                   TRENDING = SHOW EVERYTHING
+                   ========================================= */
+
+                if (selectedCategory === "trending") {
+
+                    listing.style.display = "";
+
+                    visibleCount++;
+
+                    return;
+                }
+
+
+                /* =========================================
+                   SEARCH LISTING DATA
+                   ========================================= */
+
+                const category =
+                    (
+                        listing.getAttribute(
+                            "data-listing-category"
+                        ) || ""
+                    ).toLowerCase();
+
+
+                const searchText =
+                    (
+                        listing.getAttribute(
+                            "data-search-text"
+                        ) || ""
+                    ).toLowerCase();
+
+
+                /* =========================================
+                   CATEGORY KEYWORDS
+                   ========================================= */
+
+                const keywords = {
+
+                    "rooms": [
+                        "room",
+                        "rooms",
+                        "hotel",
+                        "house",
+                        "villa",
+                        "apartment"
+                    ],
+
+                    "iconic cities": [
+                        "city",
+                        "cities",
+                        "mumbai",
+                        "delhi",
+                        "bangalore",
+                        "kolkata",
+                        "paris",
+                        "london"
+                    ],
+
+                    "mountains": [
+                        "mountain",
+                        "mountains",
+                        "hill",
+                        "hills",
+                        "manali",
+                        "shimla",
+                        "sikkim",
+                        "himachal",
+                        "uttarakhand"
+                    ],
+
+                    "castles": [
+                        "castle",
+                        "fort",
+                        "palace"
+                    ],
+
+                    "amazing pools": [
+                        "pool",
+                        "swimming",
+                        "resort"
+                    ],
+
+                    "camping": [
+                        "camp",
+                        "camping",
+                        "tent"
+                    ],
+
+                    "farms": [
+                        "farm",
+                        "farms",
+                        "rural",
+                        "village"
+                    ],
+
+                    "arctic": [
+                        "arctic",
+                        "snow",
+                        "ice",
+                        "winter",
+                        "snowy"
+                    ],
+
+                    "domes": [
+                        "dome",
+                        "domes"
+                    ],
+
+                    "boats": [
+                        "boat",
+                        "boats",
+                        "yacht",
+                        "ship",
+                        "houseboat"
+                    ]
+
+                };
+
+
+                let matched = false;
+
+
+                /* Exact category match */
+
+                if (category === selectedCategory) {
+
+                    matched = true;
+
+                }
+
+
+                /* Keyword match */
+
+                if (
+                    !matched &&
+                    keywords[selectedCategory]
+                ) {
+
+                    for (
+                        let keyword of keywords[selectedCategory]
+                    ) {
+
+                        if (searchText.includes(keyword)) {
+
+                            matched = true;
+
+                            break;
+
+                        }
+
+                    }
+
+                }
+
+
+                /* Show / Hide */
+
+                if (matched) {
+
+                    listing.style.display = "";
+
+                    visibleCount++;
+
+                } else {
+
+                    listing.style.display = "none";
+
+                }
+
+            });
+
+
+            /* =========================================
+               NO RESULTS
+               ========================================= */
+
+            if (visibleCount === 0) {
+
+                noListingsMessage.style.display = "block";
+
+            } else {
+
+                noListingsMessage.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+
+
+    /* =====================================================
+       TAX SWITCH
+       ===================================================== */
+
+    const taxSwitch =
+        document.getElementById("taxSwitch");
+
+
+    const normalPrices =
+        document.querySelectorAll(".normal-price");
+
+
+    const taxPrices =
+        document.querySelectorAll(".tax-price");
+
+
+    taxSwitch.addEventListener("change", function () {
+
+
+        if (taxSwitch.checked) {
+
+
+            /* Show tax prices */
+
+            taxPrices.forEach(function (price) {
+
+                price.style.display = "inline";
+
+            });
+
+
+            /* Hide normal prices */
+
+            normalPrices.forEach(function (price) {
+
+                price.style.display = "none";
+
+            });
+
+
+        } else {
+
+
+            /* Show normal prices */
+
+            normalPrices.forEach(function (price) {
+
+                price.style.display = "inline";
+
+            });
+
+
+            /* Hide tax prices */
+
+            taxPrices.forEach(function (price) {
+
+                price.style.display = "none";
+
+            });
+
+        }
+
+    });
+
+});
+
+</script>

@@ -1,0 +1,1004 @@
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    color: #222222;
+    background-color: #ffffff;
+}
+
+a {
+    color: inherit;
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+    min-height: 5rem;
+    background-color: #ffffff !important;
+    padding: 0.75rem 0;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    margin-right: 2rem;
+}
+
+.brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fe424d;
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.brand-name {
+    color: #222222;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.navbar .nav-link {
+    color: #222222 !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.6rem 0.8rem !important;
+    transition: color 0.2s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #fe424d !important;
+}
+
+.auth-link {
+    margin-left: 0.3rem;
+}
+
+
+/* =========================================================
+   LISTINGS PAGE
+   ========================================================= */
+
+.listings-heading {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.listing-card {
+    border: none !important;
+    background-color: #ffffff;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-3px);
+}
+
+.card-img-top {
+    width: 100% !important;
+    height: 18rem;
+    object-fit: cover !important;
+    border-radius: 1rem !important;
+}
+
+.listing-card:hover .card-img-top {
+    opacity: 0.9;
+}
+
+.listing-card .card-body {
+    padding: 0.75rem 0.25rem !important;
+}
+
+.listing-card .card-title {
+    color: #222222;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.listing-card .card-text {
+    color: #666666;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.add-btn,
+.edit-btn {
+    background-color: #fe424d !important;
+    border: none !important;
+    color: white !important;
+}
+
+.add-btn:hover,
+.edit-btn:hover {
+    background-color: #e63946 !important;
+}
+
+
+/* =========================================================
+   SHOW LISTING
+   ========================================================= */
+
+.show-card {
+    width: 40rem;
+    max-width: 100%;
+    margin: 20px auto;
+}
+
+.show-card .card-img-top {
+    height: 300px;
+    object-fit: cover;
+}
+
+.show-card .card-title {
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.f-info {
+    background-color: #ebebeb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+.f-info-socials {
+    font-size: 1.4rem;
+}
+
+.f-info-socials i {
+    margin: 0 0.75rem;
+    color: #222222;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.f-info-socials i:hover {
+    color: #fe424d;
+}
+
+.f-info-brand,
+.f-info-links {
+    color: #222222;
+    font-size: 0.9rem;
+}
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+    margin: 0 0.5rem;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .navbar-brand {
+        margin-right: 0;
+    }
+
+    .brand-name {
+        font-size: 1.2rem;
+    }
+
+    .brand-icon {
+        font-size: 1.8rem;
+    }
+
+    .navbar .nav-link {
+        padding: 0.65rem 0 !important;
+    }
+
+    .auth-link {
+        margin-left: 0;
+    }
+
+    .card-img-top {
+        height: 16rem;
+    }
+}
+
+
+/* =========================================================
+   REVIEW SECTION
+   ========================================================= */
+
+.reviews-heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+
+/* =========================================================
+   REVIEW FORM
+   ========================================================= */
+
+.review-form-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.review-form-card h5 {
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   STAR RATING INPUT
+   ========================================================= */
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 3px;
+    margin-top: 5px;
+    width: fit-content;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2.2rem;
+    line-height: 1;
+    color: #d1d5db;
+    cursor: pointer;
+    transition:
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.star-rating label:hover {
+    transform: scale(1.1);
+}
+
+
+/* Hover stars */
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #ffc107;
+}
+
+
+/* Selected stars */
+
+.star-rating input:checked ~ label {
+    color: #ffc107;
+}
+
+
+/* =========================================================
+   REVIEW CARD
+   ========================================================= */
+
+.review-card {
+    border: 1px solid #e5e5e5 !important;
+    border-radius: 1rem !important;
+    background-color: #ffffff;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.review-card .card-title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+
+/* =========================================================
+   REVIEW DISPLAY STARS
+   ========================================================= */
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.review-star {
+    font-size: 1.2rem;
+    color: #d1d5db;
+}
+
+.review-star.filled {
+    color: #ffc107;
+}
+
+.rating-number {
+    margin-left: 8px;
+    color: #666666;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.review-comment {
+    color: #444444;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MOBILE STAR RATING
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .review-form-card {
+        padding: 1rem;
+    }
+
+    .star-rating label {
+        font-size: 2rem;
+    }
+
+}
+
+#map {
+    height: 400px;
+    width: 80vh;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+
+
+/* =========================================================
+   WANDERLUST EXPLORE PAGE
+   ========================================================= */
+
+.explore-page {
+    width: 100%;
+}
+
+
+/* =========================================================
+   NAVBAR - EXPLORE
+   ========================================================= */
+
+.explore-nav-link {
+    font-weight: 600 !important;
+}
+
+.add-listing-nav {
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   CATEGORY SECTION
+   ========================================================= */
+
+.category-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    width: 100%;
+
+    padding: 1rem 0 0.75rem;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #eeeeee;
+
+    position: relative;
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   CATEGORY SCROLL
+   ========================================================= */
+
+.category-scroll {
+    display: flex;
+
+    align-items: center;
+
+    gap: 2rem;
+
+    overflow-x: auto;
+
+    flex: 1;
+
+    padding: 0.25rem 0.5rem 0.5rem;
+
+    scrollbar-width: none;
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================================================
+   CATEGORY BUTTON
+   ========================================================= */
+
+.category-item {
+    min-width: 70px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.45rem;
+
+    background: transparent;
+
+    border: none;
+
+    color: #6b6b6b;
+
+    cursor: pointer;
+
+    padding: 0.35rem 0.4rem;
+
+    font-family: inherit;
+
+    white-space: nowrap;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* Icon */
+
+.category-item i {
+    font-size: 1.25rem;
+
+    color: #555555;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* Text */
+
+.category-item span {
+    font-size: 0.75rem;
+
+    font-weight: 500;
+}
+
+
+/* Hover */
+
+.category-item:hover {
+    color: #222222;
+
+    transform: translateY(-2px);
+}
+
+.category-item:hover i {
+    color: #222222;
+}
+
+
+/* Active */
+
+.category-item.active {
+    color: #222222;
+
+    font-weight: 700;
+}
+
+.category-item.active i {
+    color: #fe424d;
+}
+
+
+/* =========================================================
+   TAX TOGGLE CONTAINER
+   ========================================================= */
+
+.tax-toggle-container {
+    flex-shrink: 0;
+
+    padding-right: 1rem;
+}
+
+
+/* =========================================================
+   TAX TOGGLE
+   ========================================================= */
+
+.tax-toggle {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.8rem;
+
+    min-width: 245px;
+
+    padding: 0.7rem 0.9rem;
+
+    border: 1px solid #888888;
+
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    font-size: 0.85rem;
+
+    font-weight: 500;
+
+    color: #333333;
+
+    background: #ffffff;
+
+    transition: border 0.2s ease;
+}
+
+.tax-toggle:hover {
+    border-color: #222222;
+}
+
+
+/* Hide checkbox */
+
+.tax-toggle input {
+    opacity: 0;
+
+    width: 0;
+
+    height: 0;
+
+    position: absolute;
+}
+
+
+/* =========================================================
+   TAX SLIDER
+   ========================================================= */
+
+.tax-slider {
+    width: 34px;
+
+    height: 20px;
+
+    background: #dddddd;
+
+    border-radius: 999px;
+
+    margin-left: auto;
+
+    position: relative;
+
+    transition: background 0.25s ease;
+}
+
+
+/* Slider circle */
+
+.tax-slider::before {
+    content: "";
+
+    position: absolute;
+
+    width: 16px;
+
+    height: 16px;
+
+    left: 2px;
+
+    top: 2px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+
+    transition: transform 0.25s ease;
+}
+
+
+/* Checked */
+
+.tax-toggle input:checked + .tax-slider {
+    background: #222222;
+}
+
+.tax-toggle input:checked + .tax-slider::before {
+    transform: translateX(14px);
+}
+
+
+/* =========================================================
+   LISTING LINK
+   ========================================================= */
+
+.listing-link {
+    text-decoration: none;
+
+    color: inherit;
+
+    display: block;
+}
+
+
+/* =========================================================
+   LISTING CARD
+   ========================================================= */
+
+.listing-card {
+    border: none !important;
+
+    background: transparent;
+
+    transition:
+        transform 0.2s ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   LISTING IMAGE
+   ========================================================= */
+
+.listing-card .card-img-top {
+    width: 100% !important;
+
+    height: 19rem;
+
+    object-fit: cover !important;
+
+    border-radius: 1rem !important;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.listing-card:hover .card-img-top {
+    opacity: 0.92;
+}
+
+
+/* =========================================================
+   NO IMAGE
+   ========================================================= */
+
+.no-image {
+    width: 100%;
+
+    height: 19rem;
+
+    background: #eeeeee;
+
+    border-radius: 1rem;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    color: #777777;
+}
+
+.no-image i {
+    font-size: 2rem;
+}
+
+
+/* =========================================================
+   LISTING BODY
+   ========================================================= */
+
+.listing-card .card-body {
+    padding: 0.75rem 0.15rem !important;
+}
+
+.listing-card .card-text {
+    color: #222222;
+
+    font-size: 0.95rem;
+
+    line-height: 1.5;
+
+    margin: 0;
+}
+
+.listing-card .card-text b {
+    font-size: 1rem;
+
+    color: #222222;
+}
+
+
+/* =========================================================
+   TAX PRICE
+   ========================================================= */
+
+.tax-price {
+    line-height: 1.4;
+}
+
+.tax-price strong {
+    color: #222222;
+
+    font-size: 0.95rem;
+}
+
+.gst-text {
+    color: #666666;
+
+    font-size: 0.78rem;
+}
+
+
+/* =========================================================
+   NO LISTINGS
+   ========================================================= */
+
+.no-listings-message {
+    text-align: center;
+
+    padding: 5rem 1rem;
+
+    color: #666666;
+}
+
+.no-listings-message i {
+    font-size: 3rem;
+
+    margin-bottom: 1rem;
+
+    color: #999999;
+}
+
+.no-listings-message h4 {
+    color: #333333;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media (min-width: 1200px) {
+
+    .category-section {
+        padding-left: 3rem;
+
+        padding-right: 2rem;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .category-section {
+        gap: 1rem;
+    }
+
+    .category-scroll {
+        gap: 1.2rem;
+    }
+
+    .tax-toggle {
+        min-width: 210px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .category-section {
+        display: block;
+
+        padding-top: 0.8rem;
+    }
+
+
+    .category-scroll {
+        gap: 1.5rem;
+
+        padding-left: 0.75rem;
+
+        padding-right: 0.75rem;
+    }
+
+
+    .category-item {
+        min-width: 65px;
+    }
+
+
+    .tax-toggle-container {
+        padding: 0.8rem 1rem 0.5rem;
+    }
+
+
+    .tax-toggle {
+        width: 100%;
+
+        min-width: 0;
+
+        justify-content: space-between;
+    }
+
+
+    .listing-card .card-img-top,
+    .no-image {
+        height: 17rem;
+    }
+
+}
+
+/* =========================================================
+   SEARCH BAR
+   ========================================================= */
+
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 380px;
+    max-width: 40%;
+}
+
+.search-input {
+    width: 100%;
+    height: 42px;
+
+    border: 1px solid #dddddd;
+    border-right: none;
+
+    border-radius: 999px 0 0 999px;
+
+    padding: 0 1.2rem;
+
+    font-size: 0.95rem;
+
+    outline: none;
+
+    transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+    border-color: #999999;
+}
+
+.search-input::placeholder {
+    color: #777777;
+}
+
+
+/* Search button */
+
+.search-btn {
+    height: 42px;
+
+    border: none;
+
+    background-color: #fe424d;
+
+    color: white;
+
+    padding: 0 1.2rem;
+
+    border-radius: 999px;
+
+    margin-left: -8px;
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    white-space: nowrap;
+
+    transition: background-color 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #e63946;
+}
+
+@media (max-width: 767px) {
+
+    .search-form {
+        width: 100%;
+        max-width: 100%;
+
+        margin: 1rem 0;
+    }
+
+}
+
